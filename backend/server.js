@@ -29,6 +29,9 @@ app.post("/send", async (req, res) => {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
       auth: {
         user: process.env.EMAIL,
         pass: process.env.PASSWORD,
@@ -39,7 +42,7 @@ app.post("/send", async (req, res) => {
 
     const mailOptions = {
       from: process.env.EMAIL,
-replyTo: email,
+      replyTo: email,
       to: process.env.EMAIL,
       subject: "New Portfolio Message",
       text: `From: ${email}\n\nMessage:\n${message}`,
@@ -53,6 +56,7 @@ replyTo: email,
       success: true,
       message: "Email sent successfully",
     });
+
   } catch (error) {
     console.error("❌ EMAIL ERROR:", error);
     res.status(500).json({ error: "Email sending failed" });

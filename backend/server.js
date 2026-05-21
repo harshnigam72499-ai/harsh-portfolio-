@@ -38,7 +38,8 @@ app.post("/send", async (req, res) => {
     console.log("📧 Sending email...");
 
     const mailOptions = {
-      from: email,
+      from: process.env.EMAIL,
+replyTo: email,
       to: process.env.EMAIL,
       subject: "New Portfolio Message",
       text: `From: ${email}\n\nMessage:\n${message}`,

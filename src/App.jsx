@@ -1,3 +1,4 @@
+import emailjs from "@emailjs/browser";
 import CinematicSection from "./components/CinematicSection";
 import MagneticButton from "./components/MagneticButton";
 import CursorGlow from "./components/CursorGlow";
@@ -10,25 +11,40 @@ import Hero from "./components/Hero";
 import ParticleBackground from "./components/ParticleBackground";
 
 export default function App() {
-const [form, setForm] = useState({
-  email: "",
-  message: "",
-});
-const handleSend = async () => {
-  try {
-    const res = await fetch("http://localhost:5000/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
 
-    const data = await res.json();
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
-    alert(data.message || "Message sent!");
-  } catch (error) {
-    alert("Error sending message");
-  }
-};
+  const handleSend = async () => {
+    try {
+      await emailjs.send(
+        "service_8s160q8",
+        "template_86mty1o",
+        {
+          name: form.name,
+          email: form.email,
+          message: form.message,
+        },
+        "Q0QjBnmEsB6XHfZyl"
+      );
+
+      alert("Message sent successfully!");
+
+      setForm({
+        name: "",
+        email: "",
+        message: "",
+      });
+
+    } catch (error) {
+      console.log(error);
+      alert("Error sending message");
+    }
+  };
+
   const [active, setActive] = useState("home");
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -103,6 +119,7 @@ const handleSend = async () => {
                 <h3 className="text-cyan-400 text-xl font-bold mb-2">
                   🎓 Education
                 </h3>
+
                 <ul className="text-gray-300 space-y-2">
                   <li>10th (CBSE) - 2020 - 74%</li>
                   <li>12th (CBSE) - 2022 - 60%</li>
@@ -116,8 +133,10 @@ const handleSend = async () => {
                 <h3 className="text-pink-400 text-xl font-bold mb-2">
                   🚀 Currently Learning
                 </h3>
+
                 <p className="text-gray-300">
-                  Linux, Java (Frontend & Backend), PostgreSQL, System Design Basics
+                  Linux, Java (Frontend & Backend), PostgreSQL,
+                  System Design Basics
                 </p>
               </div>
 
@@ -223,46 +242,53 @@ const handleSend = async () => {
       </Reveal>
 
       {/* CONTACT */}
-{/* CONTACT */}
-<Reveal>
-  <PageSection
-    id="contact"
-    className="min-h-screen flex items-center justify-center px-6"
-  >
-    <div className="text-center max-w-xl">
-      <h2 className="text-5xl font-bold text-cyan-400 mb-6">
-        Contact
-      </h2>
+      <Reveal>
+        <PageSection
+          id="contact"
+          className="min-h-screen flex items-center justify-center px-6"
+        >
+          <div className="text-center max-w-xl w-full">
+            <h2 className="text-5xl font-bold text-cyan-400 mb-6">
+              Contact
+            </h2>
 
-      <input
-        className="w-full mb-4 p-3 rounded-xl bg-black/40 border border-white/10"
-        placeholder="Your Email"
-        value={form.email}
-        onChange={(e) =>
-          setForm({ ...form, email: e.target.value })
-        }
-      />
+            <input
+              className="w-full mb-4 p-3 rounded-xl bg-black/40 border border-white/10"
+              placeholder="Your Name"
+              value={form.name}
+              onChange={(e) =>
+                setForm({ ...form, name: e.target.value })
+              }
+            />
 
-      <textarea
-        className="w-full p-3 rounded-xl bg-black/40 border border-white/10"
-        rows="5"
-        placeholder="Message"
-        value={form.message}
-        onChange={(e) =>
-          setForm({ ...form, message: e.target.value })
-        }
-      />
+            <input
+              className="w-full mb-4 p-3 rounded-xl bg-black/40 border border-white/10"
+              placeholder="Your Email"
+              value={form.email}
+              onChange={(e) =>
+                setForm({ ...form, email: e.target.value })
+              }
+            />
 
-      <MagneticButton
-        onClick={handleSend}
-        className="mt-6 px-8 py-3 bg-gradient-to-r from-cyan-400 to-purple-500 text-black font-bold rounded-xl"
-      >
-        Send
-      </MagneticButton>
+            <textarea
+              className="w-full p-3 rounded-xl bg-black/40 border border-white/10"
+              rows="5"
+              placeholder="Message"
+              value={form.message}
+              onChange={(e) =>
+                setForm({ ...form, message: e.target.value })
+              }
+            />
+
+            <MagneticButton
+              onClick={handleSend}
+              className="mt-6 px-8 py-3 bg-gradient-to-r from-cyan-400 to-purple-500 text-black font-bold rounded-xl"
+            >
+              Send
+            </MagneticButton>
+          </div>
+        </PageSection>
+      </Reveal>
     </div>
-  </PageSection>
-</Reveal>  
-
-  </div>
   );
 }

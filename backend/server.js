@@ -8,7 +8,11 @@ dotenv.config();
 const app = express();
 
 /* ----------- MIDDLEWARE ----------- */
-app.use(cors({ origin: "*", methods: ["GET", "POST"] }));
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
+}));
 app.use(express.json());
 
 /* ----------- MONGODB ----------- */
@@ -43,30 +47,27 @@ app.post("/contact", async (req, res) => {
   try {
     const newMessage = new Contact({ name, email, message });
     await newMessage.save();
-    console.log("✅ MongoDB mein save ho gaya!");
+    console.log("✅ Saved!");
     res.json({ success: true });
   } catch (err) {
-    console.log("❌ Save Error:", err.message);
+    console.log("❌ Error:", err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
 /* ----------- ADMIN LOGIN ----------- */
-// Credentials .env mein rakho — hardcode mat karo production mein
 const ADMIN_EMAIL    = process.env.ADMIN_EMAIL    || "admin@gmail.com";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 
 app.post("/admin/login", (req, res) => {
   const { email, password } = req.body;
-  console.log("🔐 Admin login attempt:", email);
-
   if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
     return res.json({ success: true });
   }
   return res.status(401).json({ success: false, message: "Invalid credentials" });
 });
 
-/* ----------- ADMIN MESSAGES (fetch all) ----------- */
+/* ----------- ADMIN MESSAGES ----------- */
 app.get("/admin/messages", async (req, res) => {
   try {
     const messages = await Contact.find().sort({ createdAt: -1 });
@@ -80,5 +81,4 @@ app.get("/admin/messages", async (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
-  console.log(`🔐 Admin: ${ADMIN_EMAIL} / ${ADMIN_PASSWORD}`);
 });

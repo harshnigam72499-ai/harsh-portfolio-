@@ -53,6 +53,34 @@ app.post("/contact", async (req, res) => {
   }
 });
 
+/* ADMIN LOGIN API */
+app.post("/admin/login", (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      return res.json({
+        success: true,
+        message: "Login successful",
+      });
+    }
+
+    res.status(401).json({
+      success: false,
+      message: "Invalid credentials",
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
+});
+
 /* ADMIN API */
 app.get("/admin/messages", async (req, res) => {
   try {

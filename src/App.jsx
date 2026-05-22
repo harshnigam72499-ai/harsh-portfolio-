@@ -13,7 +13,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import ParticleBackground from "./components/ParticleBackground";
 
-const BACKEND_URL = "https://harsh-portfolio-3.onrender.com";
+const BACKEND_URL = "https://harsh-portfolio-4.onrender.com";
 
 function Portfolio() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });

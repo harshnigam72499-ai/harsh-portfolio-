@@ -13,7 +13,8 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import ParticleBackground from "./components/ParticleBackground";
 
-// Main Portfolio Page
+const BACKEND_URL = "https://harsh-portfolio-3.onrender.com";
+
 function Portfolio() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState("");
@@ -27,7 +28,7 @@ function Portfolio() {
     }
     setStatus("sending");
     try {
-      const res = await fetch("http://localhost:5000/contact", {
+      const res = await fetch(`${BACKEND_URL}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -79,11 +80,9 @@ function Portfolio() {
           style={{ width: `${scrollProgress}%` }}
         />
       </div>
-
       <ParticleBackground />
       <Navbar active={active} />
       <Hero />
-
       <div style={{ display: "flex", justifyContent: "center", marginTop: "50px" }}>
         <Cube />
       </div>
@@ -197,8 +196,8 @@ function Portfolio() {
             >
               {status === "sending" ? "Sending..." : "Send"}
             </button>
-            {status === "success" && <p className="mt-4 text-green-400 font-semibold">✅ Message saved successfully!</p>}
-            {status === "error" && <p className="mt-4 text-red-400 font-semibold">❌ Error — backend console check karo</p>}
+            {status === "success" && <p className="mt-4 text-green-400 font-semibold">✅ Message sent successfully!</p>}
+            {status === "error" && <p className="mt-4 text-red-400 font-semibold">❌ Error sending message</p>}
           </div>
         </PageSection>
       </Reveal>

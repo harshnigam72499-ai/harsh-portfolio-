@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+const BACKEND_URL = "https://harsh-portfolio-3.onrender.com";
+
 export default function AdminDashboard() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +17,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const res = await fetch("http://localhost:5000/admin/messages");
+        const res = await fetch(`${BACKEND_URL}/admin/messages`);
         const data = await res.json();
         if (data.success) setMessages(data.messages);
       } catch (err) {
@@ -33,7 +35,6 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-
       {/* NAVBAR */}
       <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 py-4 bg-black/60 backdrop-blur-md border-b border-white/10">
         <Link to="/" className="text-xl font-bold text-white">
@@ -54,10 +55,9 @@ export default function AdminDashboard() {
         </div>
       </nav>
 
-      {/* DASHBOARD CONTENT */}
+      {/* CONTENT */}
       <div className="max-w-4xl mx-auto px-6 pt-28 pb-10">
         <h1 className="text-3xl font-bold text-cyan-400 mb-8">📬 Admin Dashboard</h1>
-
         {loading ? (
           <p className="text-gray-400 text-center">Loading messages...</p>
         ) : messages.length === 0 ? (

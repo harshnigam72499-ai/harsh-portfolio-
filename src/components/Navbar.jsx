@@ -3,14 +3,15 @@ import { useState, useRef } from "react";
 export default function Navbar({ active }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const btnRef = useRef(null);
-
-  const links = [
-    { id: "home", label: "Home" },
-    { id: "about", label: "About" },
-    { id: "skills", label: "Skills" },
-    { id: "projects", label: "Projects" },
-    { id: "contact", label: "Contact" },
-  ];
+  
+const links = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "skills", label: "Skills" },
+  { id: "projects", label: "Projects" },
+  { id: "contact", label: "Contact" },
+  { id: "admin", label: "Admin" },
+];
 
   // 🧲 Magnetic effect
   const handleMouseMove = (e) => {
@@ -51,7 +52,7 @@ export default function Navbar({ active }) {
             return (
               <a
                 key={link.id}
-                href={`#${link.id}`}
+href={link.id === "admin" ? "/admin" : `#${link.id}`}                
                 className="relative text-sm uppercase tracking-widest transition duration-300"
               >
                 {/* Text */}
@@ -113,7 +114,7 @@ export default function Navbar({ active }) {
             return (
               <a
                 key={link.id}
-                href={`#${link.id}`}
+href={link.id === "admin" ? "/admin" : `#${link.id}`}                
                 onClick={() => setMenuOpen(false)}
                 className={`text-sm uppercase tracking-widest transition ${
                   isActive ? "text-cyan-400" : "text-gray-300"

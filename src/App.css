@@ -182,3 +182,61 @@
     border-right-color: var(--border);
   }
 }
+
+
+/* ===== Premium Responsive Improvements ===== */
+
+section{
+  padding-top: 120px !important;
+  padding-bottom: 120px !important;
+}
+
+.container,
+.wrapper,
+.content{
+  width: min(1200px, 92%) !important;
+  margin-inline: auto !important;
+}
+
+h1{
+  font-size: clamp(3rem, 7vw, 6rem) !important;
+  line-height: 1.1 !important;
+}
+
+h2{
+  font-size: clamp(2rem, 5vw, 4rem) !important;
+}
+
+p{
+  font-size: 1.05rem !important;
+  line-height: 1.9 !important;
+}
+
+.card,
+.skill-card,
+.project-card{
+  border-radius: 24px !important;
+  padding: 28px !important;
+  transition: all .35s ease !important;
+}
+
+.card:hover,
+.skill-card:hover,
+.project-card:hover{
+  transform: translateY(-10px) scale(1.02);
+}
+
+@media (max-width:768px){
+  section{
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
+  }
+
+  h1{
+    text-align:center !important;
+  }
+
+  p{
+    text-align:center !important;
+  }
+}

@@ -4,7 +4,6 @@ import AdminDashboard from "./components/AdminDashboard";
 import Cube from "./components/Cube";
 import CinematicSection from "./components/CinematicSection";
 import MagneticButton from "./components/MagneticButton";
-import CursorGlow from "./components/CursorGlow";
 import PageSection from "./components/PageSection";
 import TiltCard from "./components/TiltCard";
 import Reveal from "./components/Reveal";
@@ -73,7 +72,7 @@ function Portfolio() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
-      <CursorGlow />
+      
       <div className="fixed top-0 left-0 w-full h-[3px] z-[999] bg-transparent">
         <div
           className="h-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 transition-all duration-100"

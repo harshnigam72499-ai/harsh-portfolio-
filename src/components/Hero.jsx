@@ -34,7 +34,7 @@ function TypewriterText() {
 
   return (
     <span>
-      {text}<span className="px-4 sm:px-6 typewriter-cursor" />
+      {text}<span className="typewriter-cursor" />
     </span>
   );
 }
@@ -91,10 +91,10 @@ export default function Hero() {
       >
         <h1
           className="text-5xl md:text-8xl font-black bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent glitch"
-          data-text="HARSH\nNIGAM"
+          data-text="HARSH NIGAM"
           style={{ fontFamily: "'Orbitron', monospace", letterSpacing: '0.05em' }}
         >
-          HARSH\nNIGAM
+          HARSH NIGAM
         </h1>
         {/* Underline beam */}
         <motion.div

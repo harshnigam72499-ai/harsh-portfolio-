@@ -88,7 +88,7 @@ export default function Skills() {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-4xl md:text-3xl md:text-5xl font-black text-center mb-3"
+        className="text-4xl md:text-5xl font-black text-center mb-3"
         style={{ fontFamily: "'Orbitron', monospace", background: 'linear-gradient(to right, #00f5ff, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
       >
         Skills
@@ -97,7 +97,7 @@ export default function Skills() {
         className="text-center text-gray-500 text-sm mb-12 font-mono tracking-widest"
       >// TECH STACK & EXPERTISE</motion.p>
 
-      <div className="grid md:md:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-3 gap-6">
         {skillGroups.map((group, gi) => {
           const c = colorMap[group.color];
           return (

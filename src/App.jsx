@@ -24,7 +24,7 @@ function Section({ id, children }) {
       viewport={{ once: false, amount: 0.15 }}
       className="min-h-screen flex items-center justify-center px-4 py-20"
     >
-      <div className="w-full">{children}</div>
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-8">{children}</div>
     </motion.section>
   );
 }
@@ -139,7 +139,6 @@ function Portfolio() {
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
       
-
       {/* Progress bar */}
       <div className="fixed top-0 left-0 w-full h-[2px] z-[9990] bg-transparent">
         <div
@@ -190,7 +189,7 @@ function Portfolio() {
             <StatCounter value={10} label="Tech Stack" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid lg:grid-cols-2 gap-8 items-stretch">
             {/* Info card */}
             <TiltCard glowColor="rgba(168,85,247,0.15)">
               <div className="p-6 rounded-2xl bg-white/3 border border-purple-400/20 backdrop-blur-sm holo-card h-full">

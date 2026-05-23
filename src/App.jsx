@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AdminLogin from "./components/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard";
-import CursorGlow from "./components/CursorGlow";
 import ParticleBackground from "./components/ParticleBackground";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -139,7 +138,7 @@ function Portfolio() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
-      <CursorGlow />
+      
 
       {/* Progress bar */}
       <div className="fixed top-0 left-0 w-full h-[2px] z-[9990] bg-transparent">

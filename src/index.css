@@ -60,3 +60,57 @@ body {
 }
 
 /* 🧊 3D CUBE END */
+
+
+/* Ultra Premium Effects */
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,.08), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(0,150,255,.12), transparent 35%),
+    #050505;
+}
+
+section{
+  position:relative;
+  overflow:hidden;
+}
+
+section::before{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  background: radial-gradient(circle, rgba(255,255,255,.04), transparent 60%);
+  animation: floatGlow 12s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes floatGlow{
+  0%{transform:translateY(0px) rotate(0deg);}
+  50%{transform:translateY(-20px) rotate(180deg);}
+  100%{transform:translateY(0px) rotate(360deg);}
+}
+
+button,a{
+  transition:all .3s ease;
+}
+
+button:hover,a:hover{
+  transform:translateY(-4px);
+  filter:brightness(1.1);
+}
+
+.skill-card,.project-card,.card{
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 10px 40px rgba(0,0,0,.4);
+}
+
+.skill-card:hover,.project-card:hover,.card:hover{
+  box-shadow:0 20px 60px rgba(0,150,255,.25);
+}
+

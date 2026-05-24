@@ -1,206 +1,214 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AdminLogin from "./components/AdminLogin";
-import AdminDashboard from "./components/AdminDashboard";
-import Cube from "./components/Cube";
-import CinematicSection from "./components/CinematicSection";
-import MagneticButton from "./components/MagneticButton";
-import CursorGlow from "./components/CursorGlow";
-import PageSection from "./components/PageSection";
-import TiltCard from "./components/TiltCard";
-import Reveal from "./components/Reveal";
-import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import ParticleBackground from "./components/ParticleBackground";
+import Skills from "./components/Skills";
+import AdminLogin from "./components/AdminLogin";
+import AdminDashboard from "./components/AdminDashboard";
 
 const BACKEND_URL = "https://harsh-portfolio-4.onrender.com";
 
+const projects = [
+  {
+    title: "Food Ordering App",
+    desc: "Responsive full stack food ordering platform with clean React UI and backend integration.",
+  },
+  {
+    title: "DevOps Monitoring Stack",
+    desc: "Docker, Linux and monitoring workflow setup using Prometheus and Grafana.",
+  },
+  {
+    title: "Cinematic Portfolio",
+    desc: "Modern cinematic portfolio experience focused on smooth interactions and performance.",
+  },
+];
+
 function Portfolio() {
+  const [active, setActive] = useState("home");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState("");
-  const [active, setActive] = useState("home");
-  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const sections = document.querySelectorAll("section[id]");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleSend = async () => {
     if (!form.name || !form.email || !form.message) {
-      alert("Saare fields bharo!");
+      alert("Please fill all fields");
       return;
     }
+
     setStatus("sending");
+
     try {
       const res = await fetch(`${BACKEND_URL}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
+
       const data = await res.json();
+
       if (data.success) {
         setStatus("success");
         setForm({ name: "", email: "", message: "" });
-        setTimeout(() => setStatus(""), 3000);
       } else {
         setStatus("error");
       }
-    } catch (error) {
+    } catch {
       setStatus("error");
     }
   };
 
-  useEffect(() => {
-    const sections = document.querySelectorAll("section");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        });
-      },
-      { threshold: 0.6 }
-    );
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (docHeight <= 0) return;
-      setScrollProgress((scrollTop / docHeight) * 100);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <div className="min-h-screen bg-black text-white overflow-hidden">
-      <CursorGlow />
-      <div className="fixed top-0 left-0 w-full h-[3px] z-[999] bg-transparent">
-        <div
-          className="h-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 transition-all duration-100"
-          style={{ width: `${scrollProgress}%` }}
-        />
-      </div>
-      <ParticleBackground />
+    <div className="min-h-screen bg-[#050816] text-white overflow-x-hidden">
+      <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.12),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(168,85,247,0.12),transparent_30%)]" />
+
       <Navbar active={active} />
-      <Hero />
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "50px" }}>
-        <Cube />
-      </div>
 
-      {/* ABOUT */}
-      <CinematicSection id="about">
-        <Reveal>
-          <div className="text-center max-w-4xl mx-auto">
-            <h2 className="text-5xl font-bold text-purple-400 mb-10">About Me</h2>
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-10 backdrop-blur-xl text-left space-y-6">
-              <p className="text-gray-300 text-lg">
-                📍 <span className="text-white font-semibold">Location:</span>{" "}
-                Muradnagar, Ghaziabad, Uttar Pradesh, India
-              </p>
-              <div>
-                <h3 className="text-cyan-400 text-xl font-bold mb-2">🎓 Education</h3>
-                <ul className="text-gray-300 space-y-2">
-                  <li>10th (CBSE) - 2020 - 74%</li>
-                  <li>12th (CBSE) - 2022 - 60%</li>
-                  <li>BCA - CCS University | HRIT College (2022 - 2025) - 61%</li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-pink-400 text-xl font-bold mb-2">🚀 Currently Learning</h3>
-                <p className="text-gray-300">Linux, Java, PostgreSQL, System Design Basics</p>
-              </div>
-              <p className="text-gray-300">📧 Email: harshnigam72499@gmail.com</p>
-              <p className="text-gray-300 leading-8">
-                I am looking for an opportunity as a{" "}
-                <span className="text-cyan-400 font-semibold">Full Stack Developer</span>{" "}
-                where I can apply my skills and work on real-world projects.
-              </p>
-            </div>
-          </div>
-        </Reveal>
-      </CinematicSection>
+      <main className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+        <Hero />
 
-      {/* SKILLS */}
-      <Reveal>
-        <CinematicSection id="skills" className="min-h-screen flex items-center justify-center px-6">
-          <div className="text-center">
-            <h2 className="text-5xl font-bold text-cyan-400 mb-10">Skills</h2>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-              {["React","JavaScript","Linux","Docker","Jenkins","Node.js","Git","CI/CD","Networking","Java"].map((skill) => (
-                <div key={skill} className="p-4 bg-white/5 border border-cyan-400/20 rounded-xl hover:scale-110 transition">
-                  {skill}
+        <section id="about" className="py-20 md:py-28">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="rounded-[32px] border border-white/10 bg-white/[0.03] p-8 md:p-12 backdrop-blur-xl"
+          >
+            <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+              <div>
+                <p className="mb-4 text-sm uppercase tracking-[0.35em] text-cyan-300">
+                  About Me
+                </p>
+                <h2 className="max-w-2xl text-[clamp(2rem,5vw,4rem)] font-semibold leading-tight">
+                  Building modern full stack experiences with clean UI and practical backend systems.
+                </h2>
+                <p className="mt-6 max-w-2xl text-base leading-8 text-gray-300 md:text-lg">
+                  I am a Full Stack Developer focused on React, Node.js, Linux and DevOps fundamentals. I enjoy creating responsive interfaces, scalable backend workflows and clean user experiences.
+                </p>
+              </div>
+
+              <div className="grid gap-4 text-sm text-gray-300 sm:grid-cols-2 lg:grid-cols-1">
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                  <p className="mb-2 text-xs uppercase tracking-[0.3em] text-cyan-300">Location</p>
+                  <p>Muradnagar, Ghaziabad, Uttar Pradesh, India</p>
                 </div>
-              ))}
-            </div>
-          </div>
-        </CinematicSection>
-      </Reveal>
 
-      {/* PROJECTS */}
-      <Reveal>
-        <PageSection id="projects" className="min-h-screen flex items-center justify-center px-6">
-          <div className="text-center w-full max-w-6xl">
-            <h2 className="text-5xl font-bold text-pink-400 mb-14">Projects</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                { title: "Food Ordering App", desc: "Modern React UI with backend integration." },
-                { title: "DevOps Pipeline", desc: "Jenkins + Linux automation system." },
-                { title: "Portfolio UI", desc: "Animated futuristic portfolio design." },
-              ].map((project, i) => (
-                <TiltCard key={i}>
-                  <div className="relative p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl">
-                    <div className="h-32 mb-6 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center text-xl font-black">
-                      PROJECT
-                    </div>
-                    <h3 className="text-xl font-bold mb-3">{project.title}</h3>
-                    <p className="text-gray-400">{project.desc}</p>
-                    <MagneticButton className="mt-5 px-5 py-2 rounded-xl bg-white/10 hover:bg-cyan-400 hover:text-black">
-                      View Project
-                    </MagneticButton>
-                  </div>
-                </TiltCard>
-              ))}
-            </div>
-          </div>
-        </PageSection>
-      </Reveal>
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                  <p className="mb-2 text-xs uppercase tracking-[0.3em] text-cyan-300">Education</p>
+                  <p>BCA • HRIT College • CCS University</p>
+                </div>
 
-      {/* CONTACT */}
-      <Reveal>
-        <PageSection id="contact" className="min-h-screen flex items-center justify-center px-6">
-          <div className="text-center max-w-xl w-full">
-            <h2 className="text-5xl font-bold text-cyan-400 mb-6">Contact</h2>
-            <input
-              className="w-full mb-4 p-3 rounded-xl bg-black/40 border border-white/10 text-white"
-              placeholder="Your Name"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-            />
-            <input
-              className="w-full mb-4 p-3 rounded-xl bg-black/40 border border-white/10 text-white"
-              placeholder="Your Email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-            />
-            <textarea
-              className="w-full p-3 rounded-xl bg-black/40 border border-white/10 text-white"
-              rows="5"
-              placeholder="Message"
-              value={form.message}
-              onChange={(e) => setForm({ ...form, message: e.target.value })}
-            />
-            <button
-              onClick={handleSend}
-              disabled={status === "sending"}
-              className="mt-6 px-8 py-3 bg-gradient-to-r from-cyan-400 to-purple-500 text-black font-bold rounded-xl hover:scale-105 transition disabled:opacity-60"
-            >
-              {status === "sending" ? "Sending..." : "Send"}
-            </button>
-            {status === "success" && <p className="mt-4 text-green-400 font-semibold">✅ Message sent successfully!</p>}
-            {status === "error" && <p className="mt-4 text-red-400 font-semibold">❌ Error sending message</p>}
+                <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+                  <p className="mb-2 text-xs uppercase tracking-[0.3em] text-cyan-300">Learning</p>
+                  <p>Linux, PostgreSQL, System Design and DevOps</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        <Skills />
+
+        <section id="projects" className="py-20 md:py-28">
+          <div className="mb-12 text-center">
+            <p className="mb-4 text-sm uppercase tracking-[0.35em] text-cyan-300">Projects</p>
+            <h2 className="text-[clamp(2rem,5vw,4rem)] font-semibold">Selected Work</h2>
           </div>
-        </PageSection>
-      </Reveal>
+
+          <div className="grid gap-6 lg:grid-cols-3">
+            {projects.map((project, index) => (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -6 }}
+                className="group rounded-[28px] border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl"
+              >
+                <div className="mb-6 h-44 rounded-2xl border border-white/10 bg-gradient-to-br from-cyan-500/20 to-purple-500/20" />
+                <h3 className="text-2xl font-semibold">{project.title}</h3>
+                <p className="mt-4 leading-7 text-gray-300">{project.desc}</p>
+                <button className="mt-6 rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium transition hover:border-cyan-400/30 hover:bg-cyan-400/10">
+                  View Project
+                </button>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        <section id="contact" className="py-20 md:py-28">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mx-auto max-w-3xl rounded-[32px] border border-white/10 bg-white/[0.03] p-6 sm:p-8 md:p-12"
+          >
+            <div className="text-center">
+              <p className="mb-4 text-sm uppercase tracking-[0.35em] text-cyan-300">Contact</p>
+              <h2 className="text-[clamp(2rem,5vw,4rem)] font-semibold">Let's work together</h2>
+            </div>
+
+            <div className="mt-10 grid gap-5">
+              <input
+                className="h-14 rounded-2xl border border-white/10 bg-black/30 px-5 outline-none transition focus:border-cyan-400/40"
+                placeholder="Your Name"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+              />
+
+              <input
+                className="h-14 rounded-2xl border border-white/10 bg-black/30 px-5 outline-none transition focus:border-cyan-400/40"
+                placeholder="Your Email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+              />
+
+              <textarea
+                rows="6"
+                className="rounded-2xl border border-white/10 bg-black/30 p-5 outline-none transition focus:border-cyan-400/40"
+                placeholder="Tell me about your project"
+                value={form.message}
+                onChange={(e) => setForm({ ...form, message: e.target.value })}
+              />
+
+              <button
+                onClick={handleSend}
+                className="h-14 rounded-2xl bg-gradient-to-r from-cyan-400 to-purple-500 font-semibold text-black transition hover:scale-[1.01]"
+              >
+                {status === "sending" ? "Sending..." : "Send Message"}
+              </button>
+
+              {status === "success" && (
+                <p className="text-center text-green-400">Message sent successfully.</p>
+              )}
+
+              {status === "error" && (
+                <p className="text-center text-red-400">Something went wrong.</p>
+              )}
+            </div>
+          </motion.div>
+        </section>
+      </main>
     </div>
   );
 }

@@ -1,45 +1,25 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 
 export default function CursorGlow() {
-  const dotRef = useRef(null);
-  const ringRef = useRef(null);
-  const mouse = useRef({ x: 0, y: 0 });
-  const ring = useRef({ x: 0, y: 0 });
-  const raf = useRef(null);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    const onMove = (e) => {
-      mouse.current = { x: e.clientX, y: e.clientY };
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${e.clientX - 4}px, ${e.clientY - 4}px)`;
-      }
-      // hover detection
-      const el = document.elementFromPoint(e.clientX, e.clientY);
-      const hoverable = el?.closest('a,button,[data-magnetic]');
-      ringRef.current?.classList.toggle('hovered', !!hoverable);
+    const move = (e) => {
+      setPos({ x: e.clientX, y: e.clientY });
     };
 
-    const animate = () => {
-      ring.current.x += (mouse.current.x - ring.current.x) * 0.12;
-      ring.current.y += (mouse.current.y - ring.current.y) * 0.12;
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate(${ring.current.x - 20}px, ${ring.current.y - 20}px)`;
-      }
-      raf.current = requestAnimationFrame(animate);
-    };
-
-    window.addEventListener('mousemove', onMove);
-    raf.current = requestAnimationFrame(animate);
-    return () => {
-      window.removeEventListener('mousemove', onMove);
-      cancelAnimationFrame(raf.current);
-    };
+    window.addEventListener("mousemove", move);
+    return () => window.removeEventListener("mousemove", move);
   }, []);
 
   return (
-    <>
-      <div ref={dotRef} className="cursor-dot" />
-      <div ref={ringRef} className="cursor-ring" />
-    </>
+    <div
+      className="pointer-events-none fixed top-0 left-0 z-[9999] transition-transform duration-75"
+      style={{
+        transform: `translate(${pos.x - 150}px, ${pos.y - 150}px)`,
+      }}
+    >
+      <div className="w-[300px] h-[300px] rounded-full bg-cyan-400/20 blur-3xl" />
+    </div>
   );
 }

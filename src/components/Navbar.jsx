@@ -32,6 +32,14 @@ export default function Navbar({ active }) {
           ))}
 
           <a
+            href="/resume.pdf"
+            download="Harsh-Nigam-Resume.pdf"
+            className="rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-5 py-3 text-sm font-semibold text-cyan-100 transition hover:border-cyan-300/60"
+          >
+            Resume
+          </a>
+
+          <a
             href="/admin"
             className="rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm transition hover:border-cyan-400/40"
           >
@@ -58,6 +66,14 @@ export default function Navbar({ active }) {
               {link.label}
             </a>
           ))}
+          <a
+            href="/resume.pdf"
+            download="Harsh-Nigam-Resume.pdf"
+            onClick={() => setOpen(false)}
+            className="rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-5 py-3 text-center text-sm font-semibold text-cyan-100"
+          >
+            Download Resume
+          </a>
         </div>
       )}
     </header>

@@ -37,7 +37,7 @@ export default function Hero() {
             Creating fast, polished web experiences with React, backend integrations, Linux fundamentals and practical DevOps workflows.
           </p>
 
-          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row lg:justify-start">
+          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:flex-wrap lg:justify-start">
             <a
               href="#projects"
               className="flex h-14 min-w-40 items-center justify-center rounded-2xl bg-white px-8 text-sm font-semibold text-black shadow-2xl shadow-cyan-500/10 transition-transform duration-200 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-cyan-300/60"
@@ -50,6 +50,14 @@ export default function Hero() {
               className="flex h-14 min-w-40 items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-8 text-sm font-medium text-slate-100 transition-colors duration-200 hover:border-cyan-400/40 hover:bg-cyan-400/10 focus:outline-none focus:ring-2 focus:ring-cyan-300/50"
             >
               Contact Me
+            </a>
+
+            <a
+              href="/resume.pdf"
+              download="Harsh-Nigam-Resume.pdf"
+              className="flex h-14 min-w-40 items-center justify-center rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-8 text-sm font-semibold text-cyan-100 transition-colors duration-200 hover:border-cyan-300/60 hover:bg-cyan-300/15 focus:outline-none focus:ring-2 focus:ring-cyan-300/50"
+            >
+              Download Resume
             </a>
           </div>
 

@@ -12,7 +12,7 @@ export default function AdminDashboard() {
     if (localStorage.getItem("admin") !== "true") {
       navigate("/admin");
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const fetchMessages = async () => {

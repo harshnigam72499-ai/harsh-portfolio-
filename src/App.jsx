@@ -6,6 +6,8 @@ import Hero from "./components/Hero";
 import Skills from "./components/Skills";
 import AdminLogin from "./components/AdminLogin";
 import AdminDashboard from "./components/AdminDashboard";
+import ParticleBackground from "./components/ParticleBackground";
+import CursorGlow from "./components/CursorGlow";
 
 const BACKEND_URL = "https://harsh-portfolio-4.onrender.com";
 
@@ -13,14 +15,17 @@ const projects = [
   {
     title: "Food Ordering App",
     desc: "Responsive full stack food ordering platform with clean React UI and backend integration.",
+    stack: ["React", "Node.js", "MongoDB"],
   },
   {
     title: "DevOps Monitoring Stack",
     desc: "Docker, Linux and monitoring workflow setup using Prometheus and Grafana.",
+    stack: ["Docker", "Linux", "Grafana"],
   },
   {
     title: "Cinematic Portfolio",
     desc: "Modern cinematic portfolio experience focused on smooth interactions and performance.",
+    stack: ["Vite", "Tailwind", "Framer"],
   },
 ];
 
@@ -36,11 +41,11 @@ function Portfolio() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActive(entry.target.id);
+            setActive((current) => (current === entry.target.id ? current : entry.target.id));
           }
         });
       },
-      { threshold: 0.4 }
+      { rootMargin: "-35% 0px -55% 0px", threshold: 0.01 }
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -77,8 +82,9 @@ function Portfolio() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050816] text-white overflow-x-hidden">
-      <div className="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.12),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(168,85,247,0.12),transparent_30%)]" />
+    <div className="min-h-screen overflow-x-hidden bg-[#050816] text-white">
+      <ParticleBackground />
+      <CursorGlow />
 
       <Navbar active={active} />
 
@@ -91,7 +97,7 @@ function Portfolio() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="rounded-[32px] border border-white/10 bg-white/[0.03] p-8 md:p-12 backdrop-blur-xl"
+            className="rounded-[28px] border border-white/10 bg-white/[0.055] p-8 shadow-2xl shadow-black/10 md:p-12"
           >
             <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
               <div>
@@ -143,14 +149,23 @@ function Portfolio() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -6 }}
-                className="group rounded-[28px] border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl"
+                className="group rounded-[24px] border border-white/10 bg-white/[0.055] p-6 shadow-xl shadow-black/10 transition-colors will-change-transform hover:border-cyan-300/30"
               >
-                <div className="mb-6 h-44 rounded-2xl border border-white/10 bg-gradient-to-br from-cyan-500/20 to-purple-500/20" />
+                <div className="mb-6 flex h-44 items-end rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(34,211,238,0.16),rgba(16,185,129,0.08),rgba(168,85,247,0.14))] p-4">
+                  <div className="h-2 w-24 rounded-full bg-cyan-200/70 transition-all duration-300 group-hover:w-32" />
+                </div>
                 <h3 className="text-2xl font-semibold">{project.title}</h3>
                 <p className="mt-4 leading-7 text-gray-300">{project.desc}</p>
-                <button className="mt-6 rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium transition hover:border-cyan-400/30 hover:bg-cyan-400/10">
-                  View Project
-                </button>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {project.stack.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-slate-300"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </motion.div>
             ))}
           </div>
@@ -161,7 +176,7 @@ function Portfolio() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mx-auto max-w-3xl rounded-[32px] border border-white/10 bg-white/[0.03] p-6 sm:p-8 md:p-12"
+            className="mx-auto max-w-3xl rounded-[28px] border border-white/10 bg-white/[0.055] p-6 shadow-2xl shadow-black/10 sm:p-8 md:p-12"
           >
             <div className="text-center">
               <p className="mb-4 text-sm uppercase tracking-[0.35em] text-cyan-300">Contact</p>
@@ -177,6 +192,7 @@ function Portfolio() {
               />
 
               <input
+                type="email"
                 className="h-14 rounded-2xl border border-white/10 bg-black/30 px-5 outline-none transition focus:border-cyan-400/40"
                 placeholder="Your Email"
                 value={form.email}
@@ -193,7 +209,8 @@ function Portfolio() {
 
               <button
                 onClick={handleSend}
-                className="h-14 rounded-2xl bg-gradient-to-r from-cyan-400 to-purple-500 font-semibold text-black transition hover:scale-[1.01]"
+                disabled={status === "sending"}
+                className="h-14 rounded-2xl bg-gradient-to-r from-cyan-300 via-emerald-300 to-purple-400 font-semibold text-black transition-transform hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {status === "sending" ? "Sending..." : "Send Message"}
               </button>

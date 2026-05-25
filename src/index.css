@@ -10,6 +10,7 @@
 
 html {
   scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -29,4 +30,29 @@ body {
 
 ::selection {
   background: rgba(34, 211, 238, 0.3);
+}
+
+img,
+canvas {
+  display: block;
+}
+
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
+}
+
+#home {
+  content-visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

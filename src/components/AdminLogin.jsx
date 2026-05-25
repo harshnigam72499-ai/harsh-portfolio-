@@ -25,7 +25,7 @@ export default function AdminLogin() {
       } else {
         alert("❌ Invalid credentials");
       }
-    } catch (err) {
+    } catch {
       alert("❌ Server se connect nahi ho pa raha");
     }
     setLoading(false);
